@@ -1,0 +1,34 @@
+import pandas as pd
+import plotly.graph_objs as go
+import dash
+import dash_html_components as html
+import dash_core_components as dcc
+
+data=pd.read_csv("dup_bees.csv")
+
+app=dash.Dash()
+
+app.layout = html.Div([
+    html.Div(children=[
+    html.H1("Bees",style={'color':'red','text-align':'center','height':'10px'}),
+            ],style={'border':'1px black solid','float':'left','width':'100%','height':'50px'}),
+   
+    html.Div(children=[
+        dcc.Graph(id='Scatter-plot',
+                 figure={'data':[go.Scatter(x=data['State'],
+                                            y=data['Data Item'],
+                                            mode='markers')],
+                        'layout':go.Layout(title='Scatter Plot')})
+  
+  
+    ],style={'border':'1px black solid','float':'left','width':'49.8%'}),
+    
+    html.Div(children=[
+        dcc.Graph(id='box-plot',
+                  figure={'data':[go.Box(x=data['Value'])],
+                                         'layout':go.Layout(title="Boxplot")})
+            ],style={'border':'1px black solid','float':'left','width':'49.8%'}),
+])
+                                            
+if __name__=='__main__':
+    app.run_server()
